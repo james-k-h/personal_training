@@ -9,35 +9,39 @@ export default function PricingCard({ packageType, plan, isAuthenticated }) {
 
   return (
     <div
-      className={`relative bg-white rounded-lg shadow-lg ${
-        isPopular ? 'ring-2 ring-blue-600' : ''
+      className={`relative bg-white dark:bg-gray-800 rounded-lg shadow-lg transition-colors ${
+        isPopular ? 'ring-2 ring-black dark:ring-yellow-400' : ''
       }`}
     >
       {isPopular && (
         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-0">
-          <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-medium bg-blue-600 text-white">
+          <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-medium bg-black dark:bg-yellow-400 text-white dark:text-black">
             Most Popular
           </span>
         </div>
       )}
 
       <div className="p-6">
-        <h3 className="text-xl font-semibold text-gray-900">{plan.name}</h3>
-        <p className="mt-2 text-sm text-gray-600">{plan.description}</p>
+        <h3 className="text-xl font-semibold text-black dark:text-white">
+          {plan.name}
+        </h3>
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+          {plan.description}
+        </p>
 
         <div className="mt-6">
-          <span className="text-4xl font-bold text-gray-900">
+          <span className="text-4xl font-bold text-black dark:text-white">
             ${plan.price}
           </span>
           {packageType !== 'monthly' && (
-            <span className="text-gray-600 ml-2">
+            <span className="text-gray-600 dark:text-gray-300 ml-2">
               for {plan.sessions} sessions
             </span>
           )}
         </div>
 
         {packageType !== 'monthly' && (
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             ${(plan.price / plan.sessions).toFixed(2)} per session
           </p>
         )}
@@ -48,7 +52,7 @@ export default function PricingCard({ packageType, plan, isAuthenticated }) {
           ) : (
             <button
               onClick={() => signIn('google')}
-              className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
+              className="w-full px-4 py-3 bg-black dark:bg-yellow-400 text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-yellow-500 font-medium transition-colors"
             >
               Sign In to Purchase
             </button>
@@ -58,7 +62,7 @@ export default function PricingCard({ packageType, plan, isAuthenticated }) {
         <ul className="mt-6 space-y-3">
           <li className="flex items-start">
             <svg
-              className="h-5 w-5 text-green-500 mt-0.5"
+              className="h-5 w-5 text-black dark:text-yellow-400 mt-0.5"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -68,13 +72,13 @@ export default function PricingCard({ packageType, plan, isAuthenticated }) {
                 clipRule="evenodd"
               />
             </svg>
-            <span className="ml-2 text-sm text-gray-600">
+            <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
               60-minute sessions
             </span>
           </li>
           <li className="flex items-start">
             <svg
-              className="h-5 w-5 text-green-500 mt-0.5"
+              className="h-5 w-5 text-black dark:text-yellow-400 mt-0.5"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -84,13 +88,13 @@ export default function PricingCard({ packageType, plan, isAuthenticated }) {
                 clipRule="evenodd"
               />
             </svg>
-            <span className="ml-2 text-sm text-gray-600">
+            <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
               Personalized workout plans
             </span>
           </li>
           <li className="flex items-start">
             <svg
-              className="h-5 w-5 text-green-500 mt-0.5"
+              className="h-5 w-5 text-black dark:text-yellow-400 mt-0.5"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -100,13 +104,13 @@ export default function PricingCard({ packageType, plan, isAuthenticated }) {
                 clipRule="evenodd"
               />
             </svg>
-            <span className="ml-2 text-sm text-gray-600">
+            <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
               Nutrition guidance
             </span>
           </li>
           <li className="flex items-start">
             <svg
-              className="h-5 w-5 text-green-500 mt-0.5"
+              className="h-5 w-5 text-black dark:text-yellow-400 mt-0.5"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -116,7 +120,7 @@ export default function PricingCard({ packageType, plan, isAuthenticated }) {
                 clipRule="evenodd"
               />
             </svg>
-            <span className="ml-2 text-sm text-gray-600">
+            <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
               Progress tracking
             </span>
           </li>

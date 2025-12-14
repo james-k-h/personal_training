@@ -1,4 +1,3 @@
-// components/CheckoutButton.js
 'use client';
 
 import { useState } from 'react';
@@ -37,7 +36,7 @@ export default function CheckoutButton({ packageType }) {
     <button
       onClick={handleCheckout}
       disabled={loading}
-      className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+      className="w-full px-4 py-3 bg-black dark:bg-yellow-400 text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-yellow-500 font-medium transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
     >
       {loading ? 'Processing...' : 'Purchase Now'}
     </button>
