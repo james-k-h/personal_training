@@ -1,15 +1,15 @@
 export default function BenefitsPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black transition-colors">
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Case Study Hero */}
-        <div className="bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-black rounded-2xl shadow-xl overflow-hidden mb-16">
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden mb-16 transition-colors">
           <div className="grid md:grid-cols-2 gap-8 items-center p-8 md:p-12">
             <div className="order-2 md:order-1">
-              <div className="inline-block px-4 py-1 bg-blue-600 dark:bg-yellow-400 text-white dark:text-black rounded-full text-sm font-semibold mb-4">
+              <div className="inline-block px-4 py-1 bg-black dark:bg-yellow-400 text-white dark:text-black rounded-full text-sm font-semibold mb-4">
                 Success Story
               </div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-4xl font-bold text-black dark:text-white mb-4">
                 Meet Marcus Johnson
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
@@ -22,34 +22,42 @@ export default function BenefitsPage() {
                   and fad diets—nothing stuck. Then I discovered FitPro
                   Training."
                 </p>
-                <p className="font-semibold text-gray-900 dark:text-white">
+                <p className="font-semibold text-black dark:text-white">
                   The transformation wasn't just physical:
                 </p>
                 <ul className="space-y-2 ml-4">
                   <li className="flex items-start">
-                    <span className="text-yellow-400 mr-2">✓</span>
+                    <span className="text-black dark:text-yellow-400 mr-2">
+                      ✓
+                    </span>
                     <span>
                       Lost 60 pounds and dropped from 38% to 18% body fat
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-yellow-400 mr-2">✓</span>
+                    <span className="text-black dark:text-yellow-400 mr-2">
+                      ✓
+                    </span>
                     <span>
                       Blood pressure normalized, no longer need medication
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-yellow-400 mr-2">✓</span>
+                    <span className="text-black dark:text-yellow-400 mr-2">
+                      ✓
+                    </span>
                     <span>
                       Energy levels skyrocketed—now workout at 5 AM before work
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-yellow-400 mr-2">✓</span>
+                    <span className="text-black dark:text-yellow-400 mr-2">
+                      ✓
+                    </span>
                     <span>Improved focus and productivity at work</span>
                   </li>
                 </ul>
-                <p className="italic border-l-4 border-blue-600 dark:border-yellow-400 pl-4 py-2">
+                <p className="italic border-l-4 border-black dark:border-yellow-400 pl-4 py-2">
                   "My trainer didn't just teach me exercises—they taught me a
                   lifestyle. The personalized approach made all the difference.
                   This is the best investment I've ever made in myself."
@@ -68,21 +76,21 @@ export default function BenefitsPage() {
 
         {/* Benefits Section */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">
+          <h2 className="text-3xl font-bold text-black dark:text-white text-center mb-12">
             Why FitPro Training Works
           </h2>
 
           {/* Benefit 1 */}
           <div className="mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 dark:from-yellow-400 dark:to-yellow-500 flex items-center justify-center text-3xl">
+              <div className="w-16 h-16 rounded-full bg-gray-200 dark:bg-yellow-400 flex items-center justify-center text-3xl transition-colors">
                 🎯
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-2xl font-bold text-black dark:text-white">
                 Personalized Training Programs
               </h3>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-8 space-y-4">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 space-y-4 transition-colors">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 Generic workout plans fail because they don't account for your
                 unique body, goals, and lifestyle. At FitPro Training, we start
@@ -97,24 +105,24 @@ export default function BenefitsPage() {
                 week by week based on your progress and feedback.
               </p>
               <div className="grid md:grid-cols-3 gap-4 mt-6">
-                <div className="bg-white dark:bg-black rounded-lg p-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-yellow-400 mb-2">
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 transition-colors">
+                  <h4 className="font-semibold text-black dark:text-yellow-400 mb-2">
                     Initial Assessment
                   </h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Comprehensive fitness evaluation and goal setting
                   </p>
                 </div>
-                <div className="bg-white dark:bg-black rounded-lg p-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-yellow-400 mb-2">
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 transition-colors">
+                  <h4 className="font-semibold text-black dark:text-yellow-400 mb-2">
                     Progressive Overload
                   </h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Scientifically structured progression for optimal results
                   </p>
                 </div>
-                <div className="bg-white dark:bg-black rounded-lg p-4">
-                  <h4 className="font-semibold text-gray-900 dark:text-yellow-400 mb-2">
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 transition-colors">
+                  <h4 className="font-semibold text-black dark:text-yellow-400 mb-2">
                     Continuous Adaptation
                   </h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -128,14 +136,14 @@ export default function BenefitsPage() {
           {/* Benefit 2 */}
           <div className="mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 dark:from-yellow-400 dark:to-yellow-500 flex items-center justify-center text-3xl">
+              <div className="w-16 h-16 rounded-full bg-gray-200 dark:bg-yellow-400 flex items-center justify-center text-3xl transition-colors">
                 🥗
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-2xl font-bold text-black dark:text-white">
                 Expert Nutrition Guidance
               </h3>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-8 space-y-4">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 space-y-4 transition-colors">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 You can't out-train a bad diet. Our certified nutritionists work
                 alongside your trainer to create meal plans that fuel your
@@ -150,38 +158,38 @@ export default function BenefitsPage() {
               </p>
               <div className="grid md:grid-cols-2 gap-6 mt-6">
                 <div className="space-y-3">
-                  <h4 className="font-semibold text-gray-900 dark:text-yellow-400">
+                  <h4 className="font-semibold text-black dark:text-yellow-400">
                     What You Get:
                   </h4>
                   <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                     <li className="flex items-start">
-                      <span className="text-green-500 dark:text-yellow-400 mr-2">
+                      <span className="text-black dark:text-yellow-400 mr-2">
                         •
                       </span>
                       Custom meal plans based on your preferences and goals
                     </li>
                     <li className="flex items-start">
-                      <span className="text-green-500 dark:text-yellow-400 mr-2">
+                      <span className="text-black dark:text-yellow-400 mr-2">
                         •
                       </span>
                       Macronutrient tracking and guidance
                     </li>
                     <li className="flex items-start">
-                      <span className="text-green-500 dark:text-yellow-400 mr-2">
+                      <span className="text-black dark:text-yellow-400 mr-2">
                         •
                       </span>
                       Restaurant and travel eating strategies
                     </li>
                     <li className="flex items-start">
-                      <span className="text-green-500 dark:text-yellow-400 mr-2">
+                      <span className="text-black dark:text-yellow-400 mr-2">
                         •
                       </span>
                       Supplement recommendations when appropriate
                     </li>
                   </ul>
                 </div>
-                <div className="bg-white dark:bg-black rounded-lg p-6">
-                  <h4 className="font-semibold text-gray-900 dark:text-yellow-400 mb-3">
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-6 transition-colors">
+                  <h4 className="font-semibold text-black dark:text-yellow-400 mb-3">
                     Flexible Approaches:
                   </h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
@@ -201,14 +209,14 @@ export default function BenefitsPage() {
           {/* Benefit 3 */}
           <div className="mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 dark:from-yellow-400 dark:to-yellow-500 flex items-center justify-center text-3xl">
+              <div className="w-16 h-16 rounded-full bg-gray-200 dark:bg-yellow-400 flex items-center justify-center text-3xl transition-colors">
                 📅
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-2xl font-bold text-black dark:text-white">
                 Flexible Scheduling
               </h3>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-8 space-y-4">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 space-y-4 transition-colors">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 Your schedule shouldn't be a barrier to fitness. With our
                 flexible booking system, schedule sessions that work for
@@ -221,8 +229,8 @@ export default function BenefitsPage() {
                 Your trainer's calendar syncs in real-time, so you always see
                 current availability.
               </p>
-              <div className="bg-blue-50 dark:bg-gray-800 border border-blue-200 dark:border-yellow-400/30 rounded-lg p-6 mt-6">
-                <h4 className="font-semibold text-blue-900 dark:text-yellow-400 mb-3">
+              <div className="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-6 mt-6 transition-colors">
+                <h4 className="font-semibold text-black dark:text-yellow-400 mb-3">
                   Available Time Slots:
                 </h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-700 dark:text-gray-300">
@@ -250,14 +258,14 @@ export default function BenefitsPage() {
           {/* Benefit 4 */}
           <div className="mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 dark:from-yellow-400 dark:to-yellow-500 flex items-center justify-center text-3xl">
+              <div className="w-16 h-16 rounded-full bg-gray-200 dark:bg-yellow-400 flex items-center justify-center text-3xl transition-colors">
                 📊
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-2xl font-bold text-black dark:text-white">
                 Progress Tracking & Analytics
               </h3>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-8 space-y-4">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 space-y-4 transition-colors">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 What gets measured gets improved. Our comprehensive tracking
                 system monitors every aspect of your fitness journey—from
@@ -272,8 +280,8 @@ export default function BenefitsPage() {
                 your program for maximum effectiveness.
               </p>
               <div className="grid md:grid-cols-3 gap-4 mt-6">
-                <div className="bg-white dark:bg-black rounded-lg p-4 border-l-4 border-orange-500 dark:border-yellow-400">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border-l-4 border-black dark:border-yellow-400 transition-colors">
+                  <h4 className="font-semibold text-black dark:text-white mb-2">
                     Body Metrics
                   </h4>
                   <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
@@ -283,8 +291,8 @@ export default function BenefitsPage() {
                     <li>• Measurements</li>
                   </ul>
                 </div>
-                <div className="bg-white dark:bg-black rounded-lg p-4 border-l-4 border-orange-500 dark:border-yellow-400">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border-l-4 border-black dark:border-yellow-400 transition-colors">
+                  <h4 className="font-semibold text-black dark:text-white mb-2">
                     Performance
                   </h4>
                   <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
@@ -294,8 +302,8 @@ export default function BenefitsPage() {
                     <li>• Workout volume</li>
                   </ul>
                 </div>
-                <div className="bg-white dark:bg-black rounded-lg p-4 border-l-4 border-orange-500 dark:border-yellow-400">
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border-l-4 border-black dark:border-yellow-400 transition-colors">
+                  <h4 className="font-semibold text-black dark:text-white mb-2">
                     Wellness
                   </h4>
                   <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
@@ -312,14 +320,14 @@ export default function BenefitsPage() {
           {/* Benefit 5 */}
           <div className="mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 dark:from-yellow-400 dark:to-yellow-500 flex items-center justify-center text-3xl">
+              <div className="w-16 h-16 rounded-full bg-gray-200 dark:bg-yellow-400 flex items-center justify-center text-3xl transition-colors">
                 🏆
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-2xl font-bold text-black dark:text-white">
                 Accountability & Motivation
               </h3>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-8 space-y-4">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 space-y-4 transition-colors">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 The difference between success and failure often comes down to
                 accountability. Your trainer becomes your partner in this
@@ -332,8 +340,8 @@ export default function BenefitsPage() {
                 working toward similar goals, sharing victories, and encouraging
                 each other through challenges.
               </p>
-              <div className="bg-yellow-50 dark:bg-gray-800 rounded-lg p-6 mt-6">
-                <h4 className="font-semibold text-yellow-900 dark:text-yellow-400 mb-4">
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mt-6 transition-colors">
+                <h4 className="font-semibold text-black dark:text-yellow-400 mb-4">
                   How We Keep You Motivated:
                 </h4>
                 <div className="space-y-3 text-gray-700 dark:text-gray-300">
@@ -380,24 +388,24 @@ export default function BenefitsPage() {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-yellow-400 dark:to-yellow-500 rounded-2xl p-12 text-center">
+        <div className="bg-black dark:bg-yellow-400 rounded-2xl p-12 text-center transition-colors">
           <h2 className="text-3xl font-bold text-white dark:text-black mb-4">
             Ready to Start Your Transformation?
           </h2>
-          <p className="text-blue-100 dark:text-gray-900 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-gray-300 dark:text-gray-900 text-lg mb-8 max-w-2xl mx-auto">
             Join hundreds of clients who have transformed their lives with
             FitPro Training. Your journey starts today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/pricing"
-              className="px-8 py-3 bg-white dark:bg-black text-blue-600 dark:text-yellow-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 font-semibold text-lg transition-colors shadow-lg"
+              className="px-8 py-3 bg-white dark:bg-black text-black dark:text-yellow-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 font-semibold text-lg transition-colors shadow-lg"
             >
               View Packages
             </a>
             <a
               href="/"
-              className="px-8 py-3 bg-blue-700 dark:bg-yellow-600 text-white dark:text-black rounded-lg hover:bg-blue-800 dark:hover:bg-yellow-700 font-semibold text-lg transition-colors"
+              className="px-8 py-3 bg-gray-800 dark:bg-yellow-500 text-white dark:text-black rounded-lg hover:bg-gray-700 dark:hover:bg-yellow-600 font-semibold text-lg transition-colors"
             >
               Learn More
             </a>

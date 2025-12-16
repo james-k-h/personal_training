@@ -1,4 +1,3 @@
-// app/api/checkout/route.js
 import { NextResponse } from 'next/server';
 import { stripe, PRICING_PLANS } from '@/lib/stripe';
 import { requireAuth } from '@/lib/auth';
@@ -66,6 +65,7 @@ export async function POST(request) {
         userId: dbUser._id.toString(),
         packageType,
         sessions: plan.sessions.toString(),
+        price: plan.price.toString(),
       },
     });
 
