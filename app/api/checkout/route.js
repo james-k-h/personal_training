@@ -66,6 +66,7 @@ export async function POST(request) {
         packageType,
         sessions: plan.sessions.toString(),
         price: plan.price.toString(),
+        serviceType: plan.serviceType,
       },
     });
 

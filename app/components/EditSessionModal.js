@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { PRICING_PLANS } from '@/lib/stripe';
 
 const timeSlots = [
   '06:00 AM',
@@ -21,17 +20,20 @@ const timeSlots = [
   '08:00 PM',
 ];
 
-export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [selectedPurchase, setSelectedPurchase] = useState('');
-  const [notes, setNotes] = useState('');
+export default function EditSessionModal({ isOpen, onClose, session }) {
+  const [selectedDate, setSelectedDate] = useState(
+    session?.scheduledDate?.split('T')[0] || ''
+  );
+  const [selectedTime, setSelectedTime] = useState(
+    session?.scheduledTime || ''
+  );
+  const [notes, setNotes] = useState(session?.notes || '');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!selectedDate || !selectedTime || !selectedPurchase) {
+    if (!selectedDate || !selectedTime) {
       alert('Please fill in all required fields');
       return;
     }
@@ -39,13 +41,12 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/book-session', {
-        method: 'POST',
+      const response = await fetch(`/api/sessions/${session._id}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          purchaseId: selectedPurchase,
           scheduledDate: selectedDate,
           scheduledTime: selectedTime,
           notes,
@@ -55,23 +56,22 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Session booked successfully!');
+        alert('Session updated successfully!');
         onClose();
-        window.location.reload(); // Refresh to show new session
+        window.location.reload();
       } else {
-        alert(data.error || 'Error booking session');
+        alert(data.error || 'Error updating session');
       }
     } catch (error) {
-      console.error('Booking error:', error);
-      alert('Error booking session');
+      console.error('Update error:', error);
+      alert('Error updating session');
     } finally {
       setLoading(false);
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !session) return null;
 
-  // Get today's date in YYYY-MM-DD format for min date
   const today = new Date().toISOString().split('T')[0];
 
   return (
@@ -80,7 +80,7 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
         <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold text-black dark:text-white">
-              Schedule a Session
+              Edit Session
             </h2>
             <button
               onClick={onClose}
@@ -104,31 +104,6 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Select Package */}
-          <div>
-            <label className="block text-sm font-medium text-black dark:text-white mb-2">
-              Select Package *
-            </label>
-            <select
-              value={selectedPurchase}
-              onChange={(e) => setSelectedPurchase(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors"
-            >
-              <option value="">Choose a package...</option>
-              {purchases.map((purchase) => {
-                const planInfo = PRICING_PLANS[purchase.packageType];
-                return (
-                  <option key={purchase._id} value={purchase._id}>
-                    {planInfo?.name || purchase.packageType} -{' '}
-                    {purchase.sessionsRemaining} sessions remaining
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          {/* Select Date */}
           <div>
             <label className="block text-sm font-medium text-black dark:text-white mb-2">
               Select Date *
@@ -143,7 +118,6 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
             />
           </div>
 
-          {/* Select Time */}
           <div>
             <label className="block text-sm font-medium text-black dark:text-white mb-2">
               Select Time *
@@ -163,7 +137,6 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
             </select>
           </div>
 
-          {/* Notes */}
           <div>
             <label className="block text-sm font-medium text-black dark:text-white mb-2">
               Notes (Optional)
@@ -177,7 +150,6 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
             />
           </div>
 
-          {/* Buttons */}
           <div className="flex gap-4 pt-4">
             <button
               type="button"
@@ -191,7 +163,7 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
               disabled={loading}
               className="flex-1 px-6 py-3 bg-black dark:bg-yellow-400 text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-yellow-500 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
             >
-              {loading ? 'Booking...' : 'Book Session'}
+              {loading ? 'Updating...' : 'Update Session'}
             </button>
           </div>
         </form>
