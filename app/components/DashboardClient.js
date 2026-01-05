@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { format } from 'date-fns';
 import ScheduleSessionModal from './ScheduleSessionModal';
+import EditSessionModal from './EditSessionModal';
+import CancelSessionModal from './CancelSessionModal';
+import { PRICING_PLANS } from '../../lib/stripe';
 
 export default function DashboardClient({
   userName,
@@ -10,7 +13,20 @@ export default function DashboardClient({
   sessions,
   purchases,
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [selectedSession, setSelectedSession] = useState(null);
+
+  const handleEdit = (session) => {
+    setSelectedSession(session);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCancel = (session) => {
+    setSelectedSession(session);
+    setIsCancelModalOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
@@ -36,7 +52,7 @@ export default function DashboardClient({
                 </p>
               </div>
               <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => setIsScheduleModalOpen(true)}
                 disabled={totalSessions === 0}
                 className="px-3 py-1 text-xs bg-black dark:bg-yellow-400 text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-yellow-500 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
               >
@@ -83,7 +99,12 @@ export default function DashboardClient({
             ) : (
               <div className="space-y-4">
                 {sessions.map((session) => (
-                  <SessionCard key={session._id} session={session} />
+                  <SessionCard
+                    key={session._id}
+                    session={session}
+                    onEdit={handleEdit}
+                    onCancel={handleCancel}
+                  />
                 ))}
               </div>
             )}
@@ -116,9 +137,15 @@ export default function DashboardClient({
                     key={purchase._id}
                     className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900 transition-colors"
                   >
-                    <h3 className="font-semibold text-black dark:text-white capitalize">
-                      {purchase.packageType.replace('-', ' ')}
+                    <h3 className="font-semibold text-black dark:text-white">
+                      {PRICING_PLANS[purchase.packageType]?.name ||
+                        purchase.packageType}
                     </h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      {PRICING_PLANS[purchase.packageType]?.serviceType
+                        ?.replace('-', ' ')
+                        ?.toUpperCase() || 'Service'}
+                    </p>
                     <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
                       Sessions remaining: {purchase.sessionsRemaining}
                     </p>
@@ -134,21 +161,65 @@ export default function DashboardClient({
             )}
           </div>
         </div>
+
+        {/* Cancellation Policy */}
+        <div className="mt-8 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 transition-colors">
+          <h3 className="text-lg font-semibold text-black dark:text-white mb-3">
+            📋 Cancellation Policy
+          </h3>
+          <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+            <p>
+              • <strong>More than 24 hours notice:</strong> Full session credit
+              returned to your package
+            </p>
+            <p>
+              • <strong>Less than 24 hours notice:</strong> No session credit
+              will be refunded
+            </p>
+            <p>
+              • You can reschedule or cancel sessions from your dashboard at any
+              time
+            </p>
+            <p>
+              • Late cancellations help us maintain schedule availability for
+              all clients
+            </p>
+          </div>
+        </div>
       </div>
 
       <ScheduleSessionModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isScheduleModalOpen}
+        onClose={() => setIsScheduleModalOpen(false)}
         purchases={purchases}
+      />
+
+      <EditSessionModal
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setSelectedSession(null);
+        }}
+        session={selectedSession}
+      />
+
+      <CancelSessionModal
+        isOpen={isCancelModalOpen}
+        onClose={() => {
+          setIsCancelModalOpen(false);
+          setSelectedSession(null);
+        }}
+        session={selectedSession}
       />
     </div>
   );
 }
-function SessionCard({ session }) {
+
+function SessionCard({ session, onEdit, onCancel }) {
   return (
     <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-all bg-white dark:bg-gray-900">
       <div className="flex justify-between items-start">
-        <div>
+        <div className="flex-1">
           <p className="font-semibold text-black dark:text-white">
             {format(new Date(session.scheduledDate), 'EEEE, MMMM dd, yyyy')}
           </p>
@@ -166,9 +237,20 @@ function SessionCard({ session }) {
             </p>
           )}
         </div>
-        <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-yellow-400 text-black dark:text-black rounded-full">
-          Scheduled
-        </span>
+        <div className="flex gap-2 ml-4">
+          <button
+            onClick={() => onEdit(session)}
+            className="px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-black dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => onCancel(session)}
+            className="px-3 py-1 text-xs bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-800 transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

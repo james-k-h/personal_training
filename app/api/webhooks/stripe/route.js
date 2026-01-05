@@ -60,7 +60,7 @@ export async function POST(request) {
 
       // Calculate expiration date for monthly packages
       const expiresAt =
-        session.metadata.packageType === 'monthly'
+        session.metadata.packageType === 'pt-monthly'
           ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
           : null;
 
@@ -68,6 +68,7 @@ export async function POST(request) {
       const purchase = await Purchase.create({
         userId: user._id,
         packageType: session.metadata.packageType,
+        serviceType: session.metadata.serviceType,
         sessionsRemaining: parseInt(session.metadata.sessions),
         stripePaymentId: session.payment_intent,
         amount: parseInt(session.metadata.price),
@@ -77,6 +78,7 @@ export async function POST(request) {
 
       console.log('Purchase created successfully:', purchase._id);
       console.log('Package type:', purchase.packageType);
+      console.log('Service type:', purchase.serviceType);
       console.log('Sessions remaining:', purchase.sessionsRemaining);
 
       return NextResponse.json({
