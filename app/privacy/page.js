@@ -15,6 +15,10 @@ export default function PrivacyPage() {
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
             Last Updated: January 11, 2026
+            <br />
+            Important: The below is a purely fictional privacy policy for a
+            fictional establishment. This site is strictly purposed as a web
+            application proof of concept and the owner holds no liability.
           </p>
         </div>
 
