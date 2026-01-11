@@ -21,6 +21,8 @@ export const siteConfig = {
   //   twitter: '@jkhfitness', // Update with actual handle
   //   facebook: 'jkhfitness', // Update with actual page
   //   instagram: 'jkhfitness', // Update with actual handle
+  github: 'https://github.com/james-k-h',
+  linkedin: 'https://www.linkedin.com/in/james-k-howard/',
 };
 
 export const pageMetadata = {

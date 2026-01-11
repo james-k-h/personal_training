@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 import Providers from '@/app/components/Providers';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -17,8 +18,11 @@ export default function RootLayout({ children }) {
         className={`${inter.className} bg-white dark:bg-gray-900 text-black dark:text-white transition-colors`}
       >
         <Providers>
-          <Navbar />
-          <main>{children}</main>
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>

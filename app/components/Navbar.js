@@ -37,6 +37,12 @@ export default function Navbar() {
             </Link>
             <div className="hidden md:flex ml-10 space-x-8">
               <Link
+                href="/about"
+                className="text-black dark:text-white hover:text-gray-600 dark:hover:text-yellow-400 transition-colors"
+              >
+                About Us
+              </Link>
+              <Link
                 href="/pricing"
                 className="text-black dark:text-white hover:text-gray-600 dark:hover:text-yellow-400 transition-colors"
               >

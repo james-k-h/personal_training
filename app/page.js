@@ -27,10 +27,10 @@ export default async function HomePage() {
             </Link>
             {user ? (
               <Link
-                href="/dashboard"
+                href="/about"
                 className="px-8 py-3 bg-white dark:bg-gray-900 text-black dark:text-yellow-400 border-2 border-black dark:border-yellow-400 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-medium transition-colors text-lg"
               >
-                Go to Dashboard
+                Learn About Us
               </Link>
             ) : (
               <Link
