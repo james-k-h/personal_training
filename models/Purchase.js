@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-
 const PurchaseSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -9,7 +8,12 @@ const PurchaseSchema = new mongoose.Schema({
   packageType: {
     type: String,
     required: true,
-    enum: ['single', 'package-5', 'package-10', 'monthly'],
+    // Removed enum restriction to allow all package types
+  },
+  serviceType: {
+    type: String,
+    required: true,
+    enum: ['personal-training', 'massage', 'rehab'],
   },
   sessionsRemaining: {
     type: Number,
@@ -28,6 +32,9 @@ const PurchaseSchema = new mongoose.Schema({
   },
   expiresAt: Date,
 });
+
+// Add index for better query performance
+PurchaseSchema.index({ userId: 1, status: 1 });
 
 export default mongoose.models.Purchase ||
   mongoose.model('Purchase', PurchaseSchema);

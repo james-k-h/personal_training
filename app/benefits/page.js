@@ -19,7 +19,7 @@ export default function BenefitsPage() {
                 <p>
                   "As a busy software engineer working 60+ hour weeks, I thought
                   getting fit was impossible. I'd tried gyms, YouTube videos,
-                  and fad diets—nothing stuck. Then I discovered FitPro
+                  and fad diets—nothing stuck. Then I discovered JKH Fitness
                   Training."
                 </p>
                 <p className="font-semibold text-black dark:text-white">
@@ -67,7 +67,7 @@ export default function BenefitsPage() {
             <div className="order-1 md:order-2">
               <img
                 src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&q=80"
-                alt="Marcus Johnson - FitPro Success Story"
+                alt="Marcus Johnson - JKH Fitness Success Story"
                 className="rounded-xl shadow-2xl w-full h-96 object-cover"
               />
             </div>
@@ -77,7 +77,7 @@ export default function BenefitsPage() {
         {/* Benefits Section */}
         <div className="mb-12">
           <h2 className="text-3xl font-bold text-black dark:text-white text-center mb-12">
-            Why FitPro Training Works
+            Why JKH Fitness Works
           </h2>
 
           {/* Benefit 1 */}
@@ -93,10 +93,9 @@ export default function BenefitsPage() {
             <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 space-y-4 transition-colors">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 Generic workout plans fail because they don't account for your
-                unique body, goals, and lifestyle. At FitPro Training, we start
-                with a comprehensive assessment that evaluates your current
-                fitness level, movement patterns, injuries, and personal
-                objectives.
+                unique body, goals, and lifestyle. At JKH Fitness, we start with
+                a comprehensive assessment that evaluates your current fitness
+                level, movement patterns, injuries, and personal objectives.
               </p>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 Your trainer creates a custom roadmap that evolves with you.
@@ -393,8 +392,8 @@ export default function BenefitsPage() {
             Ready to Start Your Transformation?
           </h2>
           <p className="text-gray-300 dark:text-gray-900 text-lg mb-8 max-w-2xl mx-auto">
-            Join hundreds of clients who have transformed their lives with
-            FitPro Training. Your journey starts today.
+            Join hundreds of clients who have transformed their lives with JKH
+            Fitness Training. Your journey starts today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

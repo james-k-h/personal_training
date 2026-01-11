@@ -9,7 +9,7 @@ export default function CancelSessionModal({ isOpen, onClose, session }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/sessions/${session._id}`, {
+      const response = await fetch(`/api/book-session/${session._id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

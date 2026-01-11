@@ -41,7 +41,7 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/sessions/${session._id}`, {
+      const response = await fetch(`/api/book-session/${session._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

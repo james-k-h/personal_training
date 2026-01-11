@@ -59,7 +59,7 @@ export default async function PricingPage() {
         {/* Info Section */}
         <div className="mt-16 bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 transition-colors">
           <h3 className="text-2xl font-bold text-black dark:text-white mb-4 text-center">
-            Why Choose FitPro?
+            Why Choose JKH Fitness?
           </h3>
           <div className="grid md:grid-cols-3 gap-6 mt-8">
             <div className="text-center">

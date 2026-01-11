@@ -2,6 +2,7 @@
   "name": "personal-training-app",
   "version": "0.1.0",
   "private": true,
+  "description": "JKH Fitness - Professional personal training, massage therapy, and injury rehabilitation services",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
