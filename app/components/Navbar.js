@@ -33,7 +33,7 @@ export default function Navbar() {
               href="/"
               className="text-2xl font-bold text-black dark:text-yellow-400 transition-colors"
             >
-              FitPro Training
+              JKH Fitness
             </Link>
             <div className="hidden md:flex ml-10 space-x-8">
               <Link

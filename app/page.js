@@ -103,13 +103,13 @@ export default async function HomePage() {
                 </h3>
                 <p className="text-white/90 text-base md:text-lg leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                   "I never thought I could do it. After struggling with my
-                  fitness goals for years, I joined FitPro Training and
-                  everything changed. My trainer created a personalized plan
-                  that worked with my busy schedule. In just 6 months, I lost 45
-                  pounds, gained incredible strength, and most importantly,
-                  found a love for fitness I never knew existed. The one-on-one
-                  attention and constant motivation made all the difference.
-                  Today, I'm not just healthier—I'm living my best life."
+                  fitness goals for years, I joined JKH Fitness and everything
+                  changed. My trainer created a personalized plan that worked
+                  with my busy schedule. In just 6 months, I lost 45 pounds,
+                  gained incredible strength, and most importantly, found a love
+                  for fitness I never knew existed. The one-on-one attention and
+                  constant motivation made all the difference. Today, I'm not
+                  just healthier—I'm living my best life."
                 </p>
                 <p className="text-yellow-400 font-semibold mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
                   — Sarah M., Member since 2023
@@ -164,7 +164,7 @@ export default async function HomePage() {
         {/* Benefits Carousel Section */}
         <div className="mt-20">
           <h2 className="text-3xl font-bold text-black dark:text-white text-center mb-10">
-            Why Choose FitPro Training
+            Why Choose JKH Fitness
           </h2>
           <BenefitCarousel />
         </div>
