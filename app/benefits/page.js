@@ -403,7 +403,7 @@ export default function BenefitsPage() {
               View Packages
             </a>
             <a
-              href="/"
+              href="/about"
               className="px-8 py-3 bg-gray-800 dark:bg-yellow-500 text-white dark:text-black rounded-lg hover:bg-gray-700 dark:hover:bg-yellow-600 font-semibold text-lg transition-colors"
             >
               Learn More

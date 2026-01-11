@@ -3,7 +3,7 @@ export const siteConfig = {
   description:
     'Professional personal training, massage therapy, and injury rehabilitation services tailored to your wellness goals',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'localhost:3000',
-  ogImage: '/og-image.jpg',
+  ogImage: '/favicon.png',
   keywords: [
     'personal training',
     'fitness coach',

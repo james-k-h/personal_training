@@ -106,8 +106,7 @@ export default function Footer() {
               </a>
             </div>
             <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Follow us for fitness tips, workout inspiration, and community
-              updates.
+              Check out my repository for other projects!
             </p>
           </div>
         </div>

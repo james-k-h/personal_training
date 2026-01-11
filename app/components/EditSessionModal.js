@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const timeSlots = [
+const weekdayTimeSlots = [
   '06:00 AM',
   '07:00 AM',
   '08:00 AM',
@@ -20,6 +20,20 @@ const timeSlots = [
   '08:00 PM',
 ];
 
+const weekendTimeSlots = [
+  '08:00 AM',
+  '09:00 AM',
+  '10:00 AM',
+  '11:00 AM',
+  '12:00 PM',
+  '01:00 PM',
+  '02:00 PM',
+  '03:00 PM',
+  '04:00 PM',
+  '05:00 PM',
+  '06:00 PM',
+];
+
 export default function EditSessionModal({ isOpen, onClose, session }) {
   const [selectedDate, setSelectedDate] = useState(
     session?.scheduledDate?.split('T')[0] || ''
@@ -29,6 +43,32 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
   );
   const [notes, setNotes] = useState(session?.notes || '');
   const [loading, setLoading] = useState(false);
+
+  // Check if selected date is a weekend
+  const isWeekend = (dateString) => {
+    if (!dateString) return false;
+    const date = new Date(dateString + 'T00:00:00');
+    const day = date.getDay();
+    return day === 0 || day === 6; // 0 = Sunday, 6 = Saturday
+  };
+
+  // Get available time slots based on selected date
+  const getAvailableTimeSlots = () => {
+    return isWeekend(selectedDate) ? weekendTimeSlots : weekdayTimeSlots;
+  };
+
+  // Handle date change and reset time if needed
+  const handleDateChange = (e) => {
+    const newDate = e.target.value;
+    setSelectedDate(newDate);
+
+    // If time is selected and new date is weekend, check if time is still valid
+    if (selectedTime && isWeekend(newDate)) {
+      if (!weekendTimeSlots.includes(selectedTime)) {
+        setSelectedTime(''); // Reset time if not available on weekends
+      }
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -111,11 +151,16 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
             <input
               type="date"
               value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
+              onChange={handleDateChange}
               min={today}
               required
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors"
             />
+            {selectedDate && isWeekend(selectedDate) && (
+              <p className="mt-2 text-sm text-yellow-600 dark:text-yellow-400">
+                Weekend hours: 8:00 AM - 6:00 PM
+              </p>
+            )}
           </div>
 
           <div>
@@ -126,14 +171,18 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
               value={selectedTime}
               onChange={(e) => setSelectedTime(e.target.value)}
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors"
+              disabled={!selectedDate}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <option value="">Choose a time...</option>
-              {timeSlots.map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
+              <option value="">
+                {selectedDate ? 'Choose a time...' : 'Select a date first...'}
+              </option>
+              {selectedDate &&
+                getAvailableTimeSlots().map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
             </select>
           </div>
 
