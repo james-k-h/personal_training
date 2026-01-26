@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PRICING_PLANS } from '@/lib/stripe';
+import { getEligibleRolesForPackage } from '@/lib/packageStaffMapping';
 
 const weekdayTimeSlots = [
   '06:00 AM',
@@ -39,15 +40,78 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedPurchase, setSelectedPurchase] = useState('');
+  const [selectedStaff, setSelectedStaff] = useState('');
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
+  const [allStaff, setAllStaff] = useState([]);
+  const [loadingStaff, setLoadingStaff] = useState(false);
+
+  // Fetch staff members when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      fetchStaff();
+    }
+  }, [isOpen]);
+
+  // Reset staff selection when package changes
+  useEffect(() => {
+    if (selectedPurchase) {
+      setSelectedStaff(''); // Reset staff when package changes
+    }
+  }, [selectedPurchase]);
+
+  const fetchStaff = async () => {
+    setLoadingStaff(true);
+    try {
+      const response = await fetch('/api/staff');
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Fetched staff:', data.staff);
+        setAllStaff(data.staff || []);
+      }
+    } catch (error) {
+      console.error('Error fetching staff:', error);
+    } finally {
+      setLoadingStaff(false);
+    }
+  };
+
+  // Get filtered staff based on selected package
+  const getEligibleStaff = () => {
+    if (!selectedPurchase || !allStaff.length) {
+      console.log('No purchase selected or no staff loaded');
+      return [];
+    }
+
+    const purchase = purchases.find((p) => p._id === selectedPurchase);
+    if (!purchase) {
+      console.log('Purchase not found');
+      return [];
+    }
+
+    console.log('Selected package type:', purchase.packageType);
+
+    const eligibleRoles = getEligibleRolesForPackage(purchase.packageType);
+    console.log('Eligible roles for package:', eligibleRoles);
+
+    const filteredStaff = allStaff.filter((staff) => {
+      const isEligible = eligibleRoles.includes(staff.role);
+      console.log(
+        `Staff: ${staff.name} (${staff.role}) - Eligible: ${isEligible}`
+      );
+      return isEligible;
+    });
+
+    console.log('Filtered staff count:', filteredStaff.length);
+    return filteredStaff;
+  };
 
   // Check if selected date is a weekend
   const isWeekend = (dateString) => {
     if (!dateString) return false;
     const date = new Date(dateString + 'T00:00:00');
     const day = date.getDay();
-    return day === 0 || day === 6; // 0 = Sunday, 6 = Saturday
+    return day === 0 || day === 6;
   };
 
   // Get available time slots based on selected date
@@ -60,10 +124,9 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
     const newDate = e.target.value;
     setSelectedDate(newDate);
 
-    // If time is selected and new date is weekend, check if time is still valid
     if (selectedTime && isWeekend(newDate)) {
       if (!weekendTimeSlots.includes(selectedTime)) {
-        setSelectedTime(''); // Reset time if not available on weekends
+        setSelectedTime('');
       }
     }
   };
@@ -71,7 +134,7 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!selectedDate || !selectedTime || !selectedPurchase) {
+    if (!selectedDate || !selectedTime || !selectedPurchase || !selectedStaff) {
       alert('Please fill in all required fields');
       return;
     }
@@ -86,6 +149,7 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
         },
         body: JSON.stringify({
           purchaseId: selectedPurchase,
+          staffId: selectedStaff,
           scheduledDate: selectedDate,
           scheduledTime: selectedTime,
           notes,
@@ -97,7 +161,7 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
       if (response.ok) {
         alert('Session booked successfully!');
         onClose();
-        window.location.reload(); // Refresh to show new session
+        window.location.reload();
       } else {
         alert(data.error || 'Error booking session');
       }
@@ -111,8 +175,8 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
 
   if (!isOpen) return null;
 
-  // Get today's date in YYYY-MM-DD format for min date
   const today = new Date().toISOString().split('T')[0];
+  const eligibleStaff = getEligibleStaff();
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -168,6 +232,50 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
             </select>
           </div>
 
+          {/* Select Staff */}
+          <div>
+            <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              Select Trainer/Specialist *
+            </label>
+            <select
+              value={selectedStaff}
+              onChange={(e) => setSelectedStaff(e.target.value)}
+              required
+              disabled={!selectedPurchase || loadingStaff}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <option value="">
+                {!selectedPurchase
+                  ? 'Select a package first...'
+                  : loadingStaff
+                  ? 'Loading staff...'
+                  : eligibleStaff.length === 0
+                  ? 'No staff available for this package'
+                  : 'Choose a trainer/specialist...'}
+              </option>
+              {eligibleStaff.map((member) => (
+                <option key={member._id} value={member._id}>
+                  {member.name} - {member.specialty}
+                </option>
+              ))}
+            </select>
+            {selectedPurchase && eligibleStaff.length > 0 && (
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                Showing {eligibleStaff.length} eligible{' '}
+                {eligibleStaff.length === 1 ? 'specialist' : 'specialists'} for
+                this package type
+              </p>
+            )}
+            {selectedPurchase &&
+              eligibleStaff.length === 0 &&
+              !loadingStaff && (
+                <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                  No staff members match this package type. Please contact
+                  support.
+                </p>
+              )}
+          </div>
+
           {/* Select Date */}
           <div>
             <label className="block text-sm font-medium text-black dark:text-white mb-2">
@@ -179,7 +287,10 @@ export default function ScheduleSessionModal({ isOpen, onClose, purchases }) {
               onChange={handleDateChange}
               min={today}
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors"
+              style={{
+                colorScheme: 'light dark',
+              }}
+              className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:dark:invert [&::-webkit-calendar-picker-indicator]:dark:opacity-70"
             />
             {selectedDate && isWeekend(selectedDate) && (
               <p className="mt-2 text-sm text-yellow-600 dark:text-yellow-400">
