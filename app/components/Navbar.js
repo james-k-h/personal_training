@@ -2,12 +2,14 @@
 
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTheme } from './ThemeProvider';
 import { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const { data: session } = useSession();
   const [mounted, setMounted] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   let theme = 'light';
   let toggleTheme = () => {};
@@ -23,6 +25,11 @@ export default function Navbar() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Reset image error when session changes
+  useEffect(() => {
+    setImageError(false);
+  }, [session?.user?.image]);
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors">
@@ -107,13 +114,26 @@ export default function Navbar() {
 
             {session ? (
               <div className="flex items-center gap-3">
-                {session.user.image && (
-                  <img
-                    src={session.user.image}
-                    alt="Profile"
-                    className="w-9 h-9 rounded-full object-cover"
-                  />
-                )}
+                {session.user.image && !imageError ? (
+                  <div className="relative w-9 h-9 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
+                    <Image
+                      src={session.user.image}
+                      alt={session.user.name || 'Profile'}
+                      fill
+                      sizes="36px"
+                      className="object-cover"
+                      onError={() => setImageError(true)}
+                      priority
+                    />
+                  </div>
+                ) : session.user.name ? (
+                  // Fallback: Show initials if image fails to load
+                  <div className="w-9 h-9 rounded-full bg-black dark:bg-yellow-400 flex items-center justify-center">
+                    <span className="text-white dark:text-black font-semibold text-sm">
+                      {session.user.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                ) : null}
                 <span className="text-black dark:text-white text-sm font-medium hidden sm:block leading-9">
                   {session.user.name}
                 </span>

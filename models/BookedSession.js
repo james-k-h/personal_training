@@ -11,17 +11,22 @@ const BookedSessionSchema = new mongoose.Schema({
     ref: 'Purchase',
     required: true,
   },
+  staffId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Staff',
+    required: true,
+  },
   scheduledDate: {
     type: Date,
     required: true,
   },
   scheduledTime: {
     type: String,
-    required: true, // Format: "09:00 AM"
+    required: true,
   },
   duration: {
     type: Number,
-    default: 60, // minutes
+    default: 60,
   },
   location: {
     type: String,
@@ -40,6 +45,7 @@ const BookedSessionSchema = new mongoose.Schema({
 });
 
 BookedSessionSchema.index({ userId: 1, scheduledDate: 1 });
+BookedSessionSchema.index({ staffId: 1, scheduledDate: 1 });
 
 export default mongoose.models.BookedSession ||
   mongoose.model('BookedSession', BookedSessionSchema);

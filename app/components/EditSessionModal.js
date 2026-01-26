@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getEligibleRolesForPackage } from '@/lib/packageStaffMapping';
 
 const weekdayTimeSlots = [
   '06:00 AM',
@@ -41,15 +42,91 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
   const [selectedTime, setSelectedTime] = useState(
     session?.scheduledTime || ''
   );
+  const [selectedStaff, setSelectedStaff] = useState(
+    session?.staffId?._id || session?.staffId || ''
+  );
   const [notes, setNotes] = useState(session?.notes || '');
   const [loading, setLoading] = useState(false);
+  const [allStaff, setAllStaff] = useState([]);
+  const [loadingStaff, setLoadingStaff] = useState(false);
+
+  // Fetch staff members when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      fetchStaff();
+    }
+  }, [isOpen]);
+
+  // Update state when session prop changes
+  useEffect(() => {
+    if (session) {
+      setSelectedDate(session.scheduledDate?.split('T')[0] || '');
+      setSelectedTime(session.scheduledTime || '');
+      setSelectedStaff(session.staffId?._id || session.staffId || '');
+      setNotes(session.notes || '');
+    }
+  }, [session]);
+
+  const fetchStaff = async () => {
+    setLoadingStaff(true);
+    try {
+      const response = await fetch('/api/staff');
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Fetched staff:', data.staff);
+        setAllStaff(data.staff || []);
+      }
+    } catch (error) {
+      console.error('Error fetching staff:', error);
+    } finally {
+      setLoadingStaff(false);
+    }
+  };
+
+  // Get filtered staff based on session's package type
+  const getEligibleStaff = () => {
+    if (!session || !allStaff.length) {
+      console.log('No session or no staff loaded');
+      return [];
+    }
+
+    // Extract packageType - handle both populated and non-populated purchaseId
+    let packageType;
+    if (typeof session.purchaseId === 'object' && session.purchaseId !== null) {
+      packageType = session.purchaseId.packageType;
+    } else {
+      console.warn('purchaseId not populated in session, showing all staff');
+      return allStaff; // Fallback if purchaseId not populated
+    }
+
+    if (!packageType) {
+      console.log('No package type found in session');
+      return [];
+    }
+
+    console.log('Session package type:', packageType);
+
+    const eligibleRoles = getEligibleRolesForPackage(packageType);
+    console.log('Eligible roles for package:', eligibleRoles);
+
+    const filteredStaff = allStaff.filter((staff) => {
+      const isEligible = eligibleRoles.includes(staff.role);
+      console.log(
+        `Staff: ${staff.name} (${staff.role}) - Eligible: ${isEligible}`
+      );
+      return isEligible;
+    });
+
+    console.log('Filtered staff count:', filteredStaff.length);
+    return filteredStaff;
+  };
 
   // Check if selected date is a weekend
   const isWeekend = (dateString) => {
     if (!dateString) return false;
     const date = new Date(dateString + 'T00:00:00');
     const day = date.getDay();
-    return day === 0 || day === 6; // 0 = Sunday, 6 = Saturday
+    return day === 0 || day === 6;
   };
 
   // Get available time slots based on selected date
@@ -62,10 +139,9 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
     const newDate = e.target.value;
     setSelectedDate(newDate);
 
-    // If time is selected and new date is weekend, check if time is still valid
     if (selectedTime && isWeekend(newDate)) {
       if (!weekendTimeSlots.includes(selectedTime)) {
-        setSelectedTime(''); // Reset time if not available on weekends
+        setSelectedTime('');
       }
     }
   };
@@ -73,7 +149,7 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!selectedDate || !selectedTime) {
+    if (!selectedDate || !selectedTime || !selectedStaff) {
       alert('Please fill in all required fields');
       return;
     }
@@ -87,6 +163,7 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          staffId: selectedStaff,
           scheduledDate: selectedDate,
           scheduledTime: selectedTime,
           notes,
@@ -113,6 +190,7 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
   if (!isOpen || !session) return null;
 
   const today = new Date().toISOString().split('T')[0];
+  const eligibleStaff = getEligibleStaff();
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -144,6 +222,46 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* Select Staff */}
+          <div>
+            <label className="block text-sm font-medium text-black dark:text-white mb-2">
+              Select Trainer/Specialist *
+            </label>
+            <select
+              value={selectedStaff}
+              onChange={(e) => setSelectedStaff(e.target.value)}
+              required
+              disabled={loadingStaff}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <option value="">
+                {loadingStaff
+                  ? 'Loading staff...'
+                  : eligibleStaff.length === 0
+                  ? 'No staff available'
+                  : 'Choose a trainer/specialist...'}
+              </option>
+              {eligibleStaff.map((member) => (
+                <option key={member._id} value={member._id}>
+                  {member.name} - {member.specialty}
+                </option>
+              ))}
+            </select>
+            {eligibleStaff.length > 0 && (
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                Showing {eligibleStaff.length} eligible{' '}
+                {eligibleStaff.length === 1 ? 'specialist' : 'specialists'} for
+                this package type
+              </p>
+            )}
+            {eligibleStaff.length === 0 && !loadingStaff && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                No staff members match this package type. Contact support if
+                this persists.
+              </p>
+            )}
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-black dark:text-white mb-2">
               Select Date *
@@ -154,7 +272,10 @@ export default function EditSessionModal({ isOpen, onClose, session }) {
               onChange={handleDateChange}
               min={today}
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors"
+              style={{
+                colorScheme: 'light dark',
+              }}
+              className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-black dark:text-white focus:ring-2 focus:ring-black dark:focus:ring-yellow-400 transition-colors [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:dark:invert [&::-webkit-calendar-picker-indicator]:dark:opacity-70"
             />
             {selectedDate && isWeekend(selectedDate) && (
               <p className="mt-2 text-sm text-yellow-600 dark:text-yellow-400">
